@@ -125,6 +125,8 @@ class CTE:
         cte_query = self.query
         qs = cte_query.model._default_manager.get_queryset()
 
+        qs._fields = ()  # Allow any field names to be used in further annotations
+
         query = jit_mixin(sql.Query(cte_query.model), CTEQuery)
         query.join(BaseTable(self.name, None))
         query.default_cols = cte_query.default_cols
